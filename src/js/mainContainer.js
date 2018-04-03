@@ -16,7 +16,6 @@ function addOptions(id, nr){
         
         optn.text = number;
         optn.value = number;
-        console.log(number);
         document.getElementById(id).options.add(optn, number);
     })
 }
@@ -24,26 +23,14 @@ addOptions("minuteChosen", 60);
 addOptions("secondChosen", 60);
 addOptions("hourChosen", 24);
 
-
-
-
-
-
-
-
-
-
-
-
-
-function timerInterval(min, H){
+function timerInterval(H, min, sec){
     intervalID= window.setInterval(function(){
-        console.log(min, H, "intervalID");
+        console.log(min, H, sec, "intervalID");
            min = min-1;
    if(min <= 0){
        H = H-1;
        min = 60;
-       console.log(min, H, "iffff");
+    //    console.log(min, H, "iffff");
        
    }
    if((H ==0)&&(min == 0)){
@@ -57,6 +44,7 @@ function timerInterval(min, H){
 function onStartTimer(){
 var hourChosen= hour.value;
 var minuteChosen= minute.value;
+var secondChosen= second.value;
 if((hourChosen>24)||(hourChosen<0)||(minuteChosen<0)||(minuteChosen>60)){
     errorTxt.innerHTML = "This is not a valid date, please choose again"
 }
