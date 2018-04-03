@@ -720,13 +720,17 @@ addOptions("hourChosen", 24);
 function timerInterval(H, min, sec) {
 
     intervalID = window.setInterval(function () {
-        console.log("intra in interval");
+        console.log("hmmmmmmmmmmmmmmmmmmmmmmmmmm");
 
-        console.log(min, H, sec, "intra");
+        console.log(H, min, sec, "intra in interval");
+        sec = sec - 1;
+
         if (sec <= 0) {
             min = min - 1;
             sec = 60;
         }
+        console.log(min, H, sec, "intra");
+
         if (min <= 0) {
             H = H - 1;
             min = 60;
@@ -740,7 +744,6 @@ function timerInterval(H, min, sec) {
             console.log(min, H, "second iffff");
             H = 0;
         }
-        sec = sec - 1;
         errorTxt.innerHTML = H + " hours : " + min + " minutes : " + sec + " seconds left";
     }, 1000);
 }
@@ -752,10 +755,10 @@ function onStartTimer() {
     console.log(clearInterval);
     if (!intervalID) {
 
-        timerInterval(minuteChosen, hourChosen, secondChosen);
+        timerInterval(hourChosen, minuteChosen, secondChosen);
     } else {
         clearInterval(intervalID);
-        timerInterval(minuteChosen, hourChosen, secondChosen);
+        timerInterval(hourChosen, minuteChosen, secondChosen);
     }
 }
 startBtn.addEventListener('click', onStartTimer);
