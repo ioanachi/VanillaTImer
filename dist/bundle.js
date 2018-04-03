@@ -719,19 +719,36 @@ addOptions("hourChosen", 24);
 
 function timerInterval(H, min, sec) {
 
-    intervalID = window.setInterval(function () {
-        console.log("hmmmmmmmmmmmmmmmmmmmmmmmmmm");
+    console.log(H, min, sec, "inainte de  interval");
 
+    intervalID = window.setInterval(function () {
         console.log(H, min, sec, "intra in interval");
+
         sec = sec - 1;
 
-        if (sec <= 0) {
+        if (sec <= 1) {
+            console.log("1");
+
+            if (min <= 0) {
+                console.log("2");
+
+                if (H <= 0 && min <= 0 && sec <= 0) {
+                    console.log("3");
+                    H = 0;
+                    min = 0;
+                    sec = 0;
+                    clearInterval(intervalID);
+
+                    errorTxt.innerHTML = "Timer Ended";
+                }
+                H = H - 1;
+            }
             min = min - 1;
             sec = 60;
         }
-        console.log(min, H, sec, "intra");
+        console.log(H, min, sec, "intra");
 
-        if (min <= 0) {
+        if (min <= 0 && sec <= 0) {
             H = H - 1;
             min = 60;
             //    console.log(min, H, "iffff");
@@ -739,13 +756,16 @@ function timerInterval(H, min, sec) {
         if (H <= 0) {
             H = 0;
         }
-        if (H <= 0 && min == 0 && sec == 0) {
+        if (H <= 0 && min <= 0 && sec <= 0) {
+            errorTxt.innerHTML = "Timer Ended";
+
             clearInterval(intervalID);
-            console.log(min, H, "second iffff");
+            console.log(H, min, sec, "second iffff");
+
             H = 0;
         }
         errorTxt.innerHTML = H + " hours : " + min + " minutes : " + sec + " seconds left";
-    }, 1000);
+    }, 100);
 }
 function onStartTimer() {
     var hourChosen = hour.value;
