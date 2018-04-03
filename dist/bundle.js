@@ -468,7 +468,7 @@ __webpack_require__(15);
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = "<!DOCTYPE html>\r\n<html>\r\n\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <title> Vanilla Timer</title>\r\n</head>\r\n\r\n<body>\r\n  <div class=\"container\">\r\n    <div class=\"row\">\r\n      <div class=\"col-lg-12\">\r\n        <!-- <input type=\"number\" placeholder=\"choose a day\"> -->\r\n        <div class=\"timerContainer\">\r\n        <label for=\"\">Hour</label>\r\n        <input type=\"number\" id=\"hourChosen\" min=\"0\" max=\"24\">\r\n        <label for=\"\">Minute</label>\r\n        <input type=\"number\" min=\"0\" max=\"60\" id=\"minuteChosen\">\r\n        <button id=\"startBtn\">Start Timer</button>\r\n      </div>\r\n<div class=countDown><p id='errorTxt'></p> </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n\r\n  <script src=\"dist/commons.js \"></script>\r\n  <script src='dist/bundle.js'>\r\n  </script>\r\n</body>\r\n\r\n</html>";
+module.exports = "<!DOCTYPE html>\r\n<html>\r\n\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <title> Vanilla Timer</title>\r\n</head>\r\n\r\n<body>\r\n  <div class=\"container\">\r\n    <div class=\"row\">\r\n      <div class=\"col-lg-12\">\r\n        <!-- <input type=\"number\" placeholder=\"choose a day\"> -->\r\n        <div class=\"timerContainer\">\r\n        <label for=\"\">Hour</label>\r\n        <select name=\"\" id=\"hourChosen\"></select>\r\n        <select name=\"\" id=\"minuteChosen\"></select>\r\n        <select name=\"\" id=\"secondChosen\"></select>\r\n\r\n\r\n\r\n<!-- \r\n        <input type=\"number\" id=\"hourChosen\" min=\"0\" max=\"24\">\r\n        <label for=\"\">Minute</label>\r\n        <input type=\"number\" min=\"0\" max=\"60\" id=\"minuteChosen\"> -->\r\n        <button id=\"startBtn\">Start Timer</button>\r\n      </div>\r\n<div class=countDown><p id='errorTxt'></p> </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n\r\n  <script src=\"dist/commons.js \"></script>\r\n  <script src='dist/bundle.js'>\r\n  </script>\r\n</body>\r\n\r\n</html>";
 
 /***/ }),
 /* 6 */
@@ -696,9 +696,44 @@ __webpack_require__(16);
 var startBtn = document.getElementById("startBtn");
 var hour = document.getElementById("hourChosen");
 var minute = document.getElementById("minuteChosen");
+var second = document.getElementById("secondChosen");
 var errorTxt = document.getElementById("errorTxt");
 var intervalID;
 
+function addOptions(id, nr) {
+    var arrMinSec = [];
+    for (var i = 0; i < nr + 1; i++) {
+        arrMinSec.push(i);
+    };
+    arrMinSec.forEach(function (number) {
+        var optn = document.createElement("option");
+
+        optn.text = number;
+        optn.value = number;
+        console.log(number);
+        document.getElementById(id).options.add(optn, number);
+    });
+}
+addOptions("minuteChosen", 60);
+addOptions("secondChosen", 60);
+addOptions("hourChosen", 24);
+
+function timerInterval(min, H) {
+    intervalID = window.setInterval(function () {
+        console.log(min, H, "intervalID");
+        min = min - 1;
+        if (min <= 0) {
+            H = H - 1;
+            min = 60;
+            console.log(min, H, "iffff");
+        }
+        if (H == 0 && min == 0) {
+            clearInterval(intervalID);
+            console.log(min, H, "second iffff");
+        }
+        errorTxt.innerHTML = H + "hour:" + min + "minutes left";
+    }, 1000);
+}
 function onStartTimer() {
     var hourChosen = hour.value;
     var minuteChosen = minute.value;
@@ -709,20 +744,10 @@ function onStartTimer() {
     console.log(hourChosen);
     console.log(clearInterval);
     if (!intervalID) {
-        intervalID = window.setInterval(function () {
-            console.log(intervalID, "intervalID");
-            minuteChosen = minuteChosen - 1;
-            if (minuteChosen == 0) {
-                hourChosen = hourChosen - 1;
-                minuteChosen = 60;
-            }
-            if (hourChosen == 0 && minuteChosen == 0) {
-                clearInterval(intervalID);
-            }
-            errorTxt.innerHTML = hourChosen + "hour:" + minuteChosen + "minutes left";
-        }, 1000);
+        timerInterval(minuteChosen, hourChosen);
     } else {
         clearInterval(intervalID);
+        timerInterval(minuteChosen, hourChosen);
     }
 }
 startBtn.addEventListener('click', onStartTimer);
