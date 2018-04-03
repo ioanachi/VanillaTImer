@@ -719,9 +719,8 @@ addOptions("hourChosen", 24);
 
 function timerInterval(H, min, sec) {
 
-    window.setInterval(function () {
+    intervalID = window.setInterval(function () {
         console.log("intra in interval");
-        sec = sec - 1;
 
         console.log(min, H, sec, "intra");
         if (sec <= 0) {
@@ -741,7 +740,8 @@ function timerInterval(H, min, sec) {
             console.log(min, H, "second iffff");
             H = 0;
         }
-        errorTxt.innerHTML = H + " hour : " + min + " minutes : " + sec + " seconds left";
+        sec = sec - 1;
+        errorTxt.innerHTML = H + " hours : " + min + " minutes : " + sec + " seconds left";
     }, 1000);
 }
 function onStartTimer() {
